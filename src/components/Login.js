@@ -1,26 +1,40 @@
-import React from 'react'
+import React, {useState} from 'react'
 
-const Login = () => {
+function Login (props) {
+  const {onSubmit, errors} = props
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
 
+  function handleChangeEmail(_email) {
+    setEmail(_email)
+  }
+
+  function handleChangePassword(_password) {
+    setPassword(_password)
+  }
 
   return (
     <div className="box">
       <div className="content">
-        <div className="field">
-          <label className="label">Email</label>
-          <div className="control">
-            <input className="input" type="email" placeholder="e.g. alexsmith@gmail.com" />
+        <form action="" onSubmit={(ev) => {ev.preventDefault(); onSubmit({email, password})}}>
+          <div className="field">
+            <label className="label" htmlFor='email'>Email</label>
+            <div className="control">
+              <input id="email" className={`input ${errors?.email && 'is-danger'}`} name="email" type="email" placeholder="e.g. alexsmith@gmail.com" value={email} onChange={ev => handleChangeEmail(ev.target.value)} />
+            </div>
+            <p className={`help ${errors?.email && 'is-danger'}`}>{errors?.email}</p>
           </div>
-        </div>
 
-        <div className="field">
-          <label className="label">Password</label>
-          <div className="control">
-            <input className="input" type="password" />
+          <div className="field">
+            <label className="label" htmlFor='password'>Password</label>
+            <div className="control">
+              <input id='password' className={`input ${errors?.password && 'is-danger'}`} name="password" type="password" value={password} onChange={ev => handleChangePassword(ev.target.value)} />
+            </div>
+            <p className={`help ${errors?.password && 'is-danger'}`}>{errors?.password}</p>
           </div>
-        </div>
-        <button class="button is-primary">Primary</button>
+          <button className="button is-primary" type='submit'>Primary</button>
+        </form>
       </div>
     </div>
   )
